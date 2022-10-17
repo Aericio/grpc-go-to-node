@@ -1,0 +1,16 @@
+{
+  "name": "permissions",
+  "description": "Get or edit permissions for a user or a role",
+  "options": [
+    {
+      "name": "user",
+      "description": "Get or edit permissions for a user",
+      "type": 2
+    },
+    {
+      "name": "role",
+      "description": "Get or edit permissions for a role",
+      "type": 2
+    }
+  ]
+}
