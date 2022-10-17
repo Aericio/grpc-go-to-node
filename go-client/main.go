@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "github.com/aericio/grpc/go-server/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -31,9 +32,14 @@ func main() {
 		log.Fatal("Error when opening file: ", err)
 	}
 
-	create, err := c.Create(ctx, &pb.CreateRequest{Key: "123", Value: file})
-	if err != nil {
-		log.Fatalf(err.Error())
+	for i := 0; i < 5; i++ {
+		start := time.Now()
+		_, err := c.Create(ctx, &pb.CreateRequest{Key: "123", Value: file})
+		if err != nil {
+			log.Fatalf(err.Error())
+		}
+		log.Printf("Request was created")
+		duration := time.Since(start)
+		fmt.Println(duration)
 	}
-	log.Printf("Request was created. %v", create.String())
 }
