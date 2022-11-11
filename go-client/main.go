@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:3001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("localhost:4362", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -22,7 +22,7 @@ func main() {
 			log.Printf("error")
 		}
 	}(conn)
-	c := pb.NewServerClient(conn)
+	c := pb.NewQueueClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -34,7 +34,7 @@ func main() {
 
 	for i := 0; i < 5; i++ {
 		start := time.Now()
-		_, err := c.Create(ctx, &pb.CreateRequest{Key: "123", Value: file})
+		_, err := c.Push(ctx, &pb.EventRequest{Key: "123", Value: file})
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
